@@ -11,23 +11,24 @@ body {
 	background: black;
 	display: none;
 	position: fixed;
-	opacity: 0;
-	@include transition(opacity, 0.5s);
 	top: 0;
 	right: 0;
 	bottom: 0;
 	left: 0;
 	overflow: scroll;
 	-webkit-overflow-scrolling: touch;
+	cursor: pointer;
 
 	body.zoomLayerVisible & {
-		opacity: 1;
 		display: block;
 	}
 
 	img {
-		width: 775px;
-		height: 1250px;
+		width: 1500px;
+		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+			width: 775px;
+		}
+		height: auto;
 	}
 }
 
@@ -43,7 +44,26 @@ img {
 
 #mainImage {
 	img {
-		width: 300px;
+		width: 600px;
+		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+			width: 300px;
+		}
 		height: auto;
+		margin-bottom: 10px;
+	}
+	img, button {
+		cursor: pointer;
+	}
+	button {
+		border: 0;
+		padding: 5px 20px;
+		background: #CCC;
+		color: black;
+		border: 1px solid #999;
+		&:hover {
+			background: #666;
+			color:white;
+			border: 1px solid #666;
+		}
 	}
 }

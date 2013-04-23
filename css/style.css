@@ -298,43 +298,69 @@ body.zoomLayerVisible {
   background: black;
   display: none;
   position: fixed;
-  opacity: 0;
-  -webkit-transition: opacity, 0.5s;
-  -moz-transition: opacity, 0.5s;
-  -o-transition: opacity, 0.5s;
-  transition: opacity, 0.5s;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
+  cursor: pointer;
 }
-/* line 23, ../sass/style.scss */
+/* line 22, ../sass/style.scss */
 body.zoomLayerVisible #zoomLayer {
-  opacity: 1;
   display: block;
 }
-/* line 28, ../sass/style.scss */
+/* line 26, ../sass/style.scss */
 #zoomLayer img {
-  width: 775px;
-  height: 1250px;
+  width: 1500px;
+  height: auto;
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* line 26, ../sass/style.scss */
+  #zoomLayer img {
+    width: 775px;
+  }
 }
 
-/* line 34, ../sass/style.scss */
+/* line 35, ../sass/style.scss */
 #container {
   margin: 0 auto;
   text-align: center;
 }
 
-/* line 39, ../sass/style.scss */
+/* line 40, ../sass/style.scss */
 img {
   display: block;
   margin: 0 auto;
 }
 
-/* line 45, ../sass/style.scss */
+/* line 46, ../sass/style.scss */
 #mainImage img {
-  width: 300px;
+  width: 600px;
   height: auto;
+  margin-bottom: 10px;
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* line 46, ../sass/style.scss */
+  #mainImage img {
+    width: 300px;
+  }
+}
+/* line 54, ../sass/style.scss */
+#mainImage img, #mainImage button {
+  cursor: pointer;
+}
+/* line 57, ../sass/style.scss */
+#mainImage button {
+  border: 0;
+  padding: 5px 20px;
+  background: #CCC;
+  color: black;
+  border: 1px solid #999999;
+}
+/* line 63, ../sass/style.scss */
+#mainImage button:hover {
+  background: #666;
+  color: white;
+  border: 1px solid #666666;
 }

@@ -20,10 +20,11 @@
             zoomOpenClass   : 'zoomLayerVisible',
             $body           : $('body'), 
             $zoomLayer      : $('#zoomLayer'),
+            $openLayer      : '#mainImage img',
+            $closeLayer     : '#zoomLayer',
             $zlImg          : $("#zoomLayer img"),
             $mainImage      : $('#mainImage'),
             $openZoomBtn    : $('#mainImage').find('button'),
-            $smallImage     : $('#mainImage').find('img'),
             interval        : null
         };
 
@@ -51,7 +52,7 @@
         //---
         function openLayer (target){
             console.log ( "ZoomLight: OpenLayer called!" );
-            var tmpTarget = typeof(target) !== undefined && typeof(target) === "string" ? $(target) : self.options.$smallImage;
+            var tmpTarget = typeof(target) !== undefined && ( typeof(target) === "string" || typeof(target) === "object" ) ? target : self.options.$openLayer;
             handler ( tmpTarget, "click", function(){
                 self.options.$body.addClass(self.options.zoomOpenClass);
                 //Desktop mode
@@ -62,7 +63,7 @@
         //---
         function closeLayer (target){
             console.log ( "ZoomLight: CloseLayer called!" );
-            var tmpTarget = typeof(target) !== undefined && typeof(target) === "string" ? $(target) : self.options.$zoomLayer;
+            var tmpTarget = typeof(target) !== undefined && ( typeof(target) === "string" || typeof(target) === "object" ) ? target : self.options.$closeLayer;
             handler ( tmpTarget, "click", function(){
                 self.options.$body.removeClass(self.options.zoomOpenClass);
                 destroy();
@@ -76,13 +77,18 @@
             console.log ( "target %c" + action, "font-weight:bold; color: red;" );
             console.log ( "target", fallback );
             console.groupEnd();
-
-            target.bind(action, fallback);
+            if ( typeof(target) === "string" ){
+                $(target).bind(action, fallback);
+            }else{
+                for ( var i = 0; i < target.length; i++ ){
+                    $(target[i]).bind(action, fallback);
+                }
+            }
         }
 
         //---
         function desktopMode (){
-            console.log ( "ZoomLight: DesktopMode called!" );
+            console.log ( "%cZoomLight: DesktopMode called!", "font-weight:bold; color: red;" );
             if ( !self.options.isMobile ){
                 setupMoveImage ();
             }
@@ -116,7 +122,9 @@
 
             //Center image
             self.options.$zlImg.css( { "top": info.top,"left": info.left } );
-            console.log("Image Centered ", {"top":info.top, "left":info.left});
+            console.groupCollapsed ( "ZoomLight: Image Centered!" );
+            console.log({"top":info.top, "left":info.left});
+            console.groupEnd();
 
             //---
             setTimeout ( function () {
@@ -179,7 +187,7 @@
 
         //---
         function destroy (){
-            console.group ( "ZoomLight: Destroy called!" );//
+            console.groupCollapsed ( "ZoomLight: Destroy called!" );//
             //
             unbindMouse ();
             //

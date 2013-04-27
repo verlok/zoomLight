@@ -8,7 +8,9 @@ $(function() {
 	try {
 
 		//---
-		var options = {};
+		var options = {
+			$openLayer	: ['#mainImage img', "#mainImage button"]
+		};
 		//---
 		pool ( $("body"), "zoomLight", options );
 		//---

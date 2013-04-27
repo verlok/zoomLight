@@ -52,7 +52,7 @@
         //---
         function openLayer (target){
             console.log ( "ZoomLight: OpenLayer called!" );
-            var tmpTarget = typeof(target) !== undefined && ( typeof(target) === "string" || typeof(target) === "object" ) ? target : self.options.$openLayer;
+            var tmpTarget = test ( target, self.options.$openLayer );
             handler ( tmpTarget, "click", function(){
                 self.options.$body.addClass(self.options.zoomOpenClass);
                 //Desktop mode
@@ -63,19 +63,24 @@
         //---
         function closeLayer (target){
             console.log ( "ZoomLight: CloseLayer called!" );
-            var tmpTarget = typeof(target) !== undefined && ( typeof(target) === "string" || typeof(target) === "object" ) ? target : self.options.$closeLayer;
+            var tmpTarget = test ( target, self.options.$closeLayer );
             handler ( tmpTarget, "click", function(){
                 self.options.$body.removeClass(self.options.zoomOpenClass);
                 destroy();
             });
         }
 
+        //---
+        function test ( target, def ){
+            return typeof(target) !== undefined && ( typeof(target) === "string" || typeof(target) === "object" ) ? target : def;
+        }
+
         //--- 
         function handler (target, action, fallback){
             console.groupCollapsed ( "ZoomLight: Handler called!" );
-            console.log ( "target", target );
-            console.log ( "target %c" + action, "font-weight:bold; color: red;" );
-            console.log ( "target", fallback );
+            console.log ( "target: ", target );
+            console.log ( "action:  %c" + action, "font-weight:bold; color: red;" );
+            console.log ( "fallback:", fallback );
             console.groupEnd();
             if ( typeof(target) === "string" ){
                 $(target).bind(action, fallback);

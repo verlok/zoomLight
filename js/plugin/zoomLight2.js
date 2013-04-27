@@ -1,13 +1,13 @@
 ;(function($) {
     // wrap code within anonymous function: a private namespace
 
-    // replace 'zoomLight' and 'zoomLight' below in your own plugin...
+    // replace '$zoomLight2' and '$zoomLight2' below in your own plugin...
 
     // constructor function for the logical object bound to a
     // single DOM element
-    function zoomLight(elem, options) {
+    function $zoomLight2(elem, options) {
 
-        console.log ( "ZoomLight: Constructor called!" );
+        console.log ( "$zoomLight2: Constructor called!" );
 
         // remember this object as self
         var self = this;
@@ -18,12 +18,11 @@
         var defaults = {
             isMobile        : !(navigator.userAgent.match(/mobile/i) === null),
             zoomOpenClass   : 'zoomLayerVisible',
-            openLayer       : '#mainImage img',
-            closeLayer      : '#zoomLayer',
-            $preloader       : $('#preloader'),
             $body           : $('body'), 
             $zoomLayer      : $('#zoomLayer'),
-            $zlImg          : $("#zoomLayer #zoomImage"),
+            $openLayer      : '#mainImage img',
+            $closeLayer     : '#zoomLayer',
+            $zlImg          : $("#zoomLayer img"),
             $mainImage      : $('#mainImage'),
             $openZoomBtn    : $('#mainImage').find('button'),
             interval        : null
@@ -33,7 +32,7 @@
         self.options = $.extend({}, defaults, options);
 
         //Trace if is mobile
-        console.log ( "ZoomLight: Mobile mode %c" + self.options.isMobile, "font-weight:bold; color: red;" );
+        console.log ( "$zoomLight2: Mobile mode %c" + self.options.isMobile, "font-weight:bold; color: red;" );
 
         // just some private data
         //self.count = 1;
@@ -43,7 +42,7 @@
 
         // initialize this plugin
         function init() {
-            console.log ( "ZoomLight: Init called!" );
+            console.log ( "$zoomLight2: Init called!" );
             // Set listener open layer
             openLayer ();
             // Set listener close layer
@@ -52,8 +51,8 @@
 
         //---
         function openLayer (target){
-            console.log ( "ZoomLight: OpenLayer called!" );
-            var tmpTarget = test ( target, self.options.openLayer );
+            console.log ( "$zoomLight2: OpenLayer called!" );
+            var tmpTarget = test ( target, self.options.$openLayer );
             handler ( tmpTarget, "click", function(){
                 self.options.$body.addClass(self.options.zoomOpenClass);
                 //Desktop mode
@@ -63,8 +62,8 @@
 
         //---
         function closeLayer (target){
-            console.log ( "ZoomLight: CloseLayer called!" );
-            var tmpTarget = test ( target, self.options.closeLayer );
+            console.log ( "$zoomLight2: CloseLayer called!" );
+            var tmpTarget = test ( target, self.options.$closeLayer );
             handler ( tmpTarget, "click", function(){
                 self.options.$body.removeClass(self.options.zoomOpenClass);
                 destroy();
@@ -73,32 +72,12 @@
 
         //---
         function test ( target, def ){
-            var promise = typeof(target) !== undefined && ( typeof(target) === "string" || typeof(target) === "object" ) ? target : def
-            return promise;
-        }
-
-        //---
-        function changeSrc ( src ){
-            //
-            self.options.$zlImg.fadeOut('slow');//.css("opacity",0.01);
-            self.options.$preloader.fadeIn('slow');
-            var img = new Image();
-            $(img).load(function () {
-                setTimeout ( function (){
-                    self.options.$preloader.fadeOut('slow');
-                    self.options.$zlImg.attr("src",src);
-                    $(window).resize();
-                    self.options.$zlImg.fadeIn('slow')//.css("opacity",1);
-                }, 2000 );
-            }).error(function () {
-                // notify the user that the image could not be loaded
-                console.error ( "error" );
-            }).attr('src', src);
+            return typeof(target) !== undefined && ( typeof(target) === "string" || typeof(target) === "object" ) ? target : def;
         }
 
         //--- 
         function handler (target, action, fallback){
-            console.groupCollapsed ( "ZoomLight: Handler called!" );
+            console.groupCollapsed ( "$zoomLight2: Handler called!" );
             console.log ( "target: ", target );
             console.log ( "action:  %c" + action, "font-weight:bold; color: red;" );
             console.log ( "fallback:", fallback );
@@ -114,7 +93,7 @@
 
         //---
         function desktopMode (){
-            console.log ( "%cZoomLight: DesktopMode called!", "font-weight:bold; color: green;" );
+            console.log ( "%c$zoomLight2: DesktopMode called!", "font-weight:bold; color: red;" );
             if ( !self.options.isMobile ){
                 setupMoveImage ();
             }
@@ -146,8 +125,11 @@
             info.coordinate.left = info.left;
             info.coordinate.top  = info.top;
 
-            //---
-            centerImage (info);
+            //Center image
+            self.options.$zlImg.css( { "top": info.top,"left": info.left } );
+            console.groupCollapsed ( "$zoomLight2: Image Centered!" );
+            console.log({"top":info.top, "left":info.left});
+            console.groupEnd();
 
             //---
             setTimeout ( function () {
@@ -160,20 +142,12 @@
                 resize ( info );
 
             }, 500 );
-        }
 
-        //---
-        function centerImage (info){
-            //Center image
-            self.options.$zlImg.css( { "top": info.top,"left": info.left } );
-            console.groupCollapsed ( "ZoomLight: Image Centered!" );
-            console.log({"top":info.top, "left":info.left});
-            console.groupEnd();
         }
 
         //---
         function bindMouse (info){
-            console.groupCollapsed ( "ZoomLight: BindMouse called!" );//
+            console.groupCollapsed ( "$zoomLight2: BindMouse called!" );//
             console.log ( info );
             //---
             self.options.$zoomLayer.bind("mousemove", function (event){
@@ -187,11 +161,11 @@
 
         //---
         function animation (info){
-            console.groupCollapsed ( "ZoomLight: Animation called!" );//
+            console.groupCollapsed ( "$zoomLight2: Animation called!" );//
             console.log ( info );
             //Set interval animation without jquery animation
             self.options.interval = setInterval ( function (){
-                //console.log ( "ZoomLight: SetInterval work!" );
+                //console.log ( "$zoomLight2: SetInterval work!" );
                 info.wW > info.imgW ? info.coordinate.left = info.left : null;
                 info.wH > info.imgH ? info.coordinate.top  = info.top : null;
                 //
@@ -202,7 +176,7 @@
 
         //---
         function resize (info){
-            console.groupCollapsed ( "ZoomLight: Window resize called!" );//
+            console.groupCollapsed ( "$zoomLight2: Window resize called!" );//
             console.log ( info );
             //Update space
             $(window).resize(function(){
@@ -218,7 +192,7 @@
 
         //---
         function destroy (){
-            console.groupCollapsed ( "ZoomLight: Destroy called!" );//
+            console.groupCollapsed ( "$zoomLight2: Destroy called!" );//
             //
             unbindMouse ();
             //
@@ -229,14 +203,14 @@
 
         //---
         function unbindMouse (){
-            console.log ( "ZoomLight: UnbindMouse called!" );//
+            console.log ( "$zoomLight2: UnbindMouse called!" );//
             //---
             self.options.$zoomLayer.unbind("mousemove");
         }
 
         //---
         function clearAnimation (){
-            console.log ( "ZoomLight: ClearAnimation called!" );//
+            console.log ( "$zoomLight2: ClearAnimation called!" );//
             //Clear interval animation 
             clearTimeout(self.options.interval);
         }
@@ -246,20 +220,19 @@
         API.openLayer    = openLayer;
         API.closeLayer   = closeLayer;
         API.destroy      = destroy;
-        API.changeSrc    = changeSrc;
         return API;    
 
     }
 
     // attach the plugin to jquery namespace
-    $.fn.zoomLight = function(options) {
+    $.fn.$zoomLight2 = function(options) {
 
-        console.group ( "ZoomLight Plugin started!" );//groupCollapsed
+        console.group ( "$zoomLight2 Plugin started!" );//groupCollapsed
         return this.each(function() {
-            console.log ( "ZoomLight: Instantiated!" );
+            console.log ( "$zoomLight2: Instantiated!" );
             // prevent multiple instantiation
-            if (!$(this).data('zoomLight')){
-                $(this).data('zoomLight', new zoomLight(this, options));
+            if (!$(this).data('$zoomLight2')){
+                $(this).data('$zoomLight2', new $zoomLight2(this, options));
             }
         });
         console.groupEnd();

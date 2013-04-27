@@ -9,7 +9,7 @@ $(function() {
 
 		//---
 		var options = {
-			/*$openLayer	: ['#mainImage img', "#mainImage button"]*/
+			$openLayer	: ['#mainImage img', "#mainImage button"]
 		};
 		//---
 		pool ( $("body"), "zoomLight", options );
@@ -19,7 +19,9 @@ $(function() {
 		/*setTimeout ( function (){
 			callApi ( "zoomLight", "openLayer", "#mainImage button" );
 		}, 10000);*/
-
+		setTimeout ( function (){
+			callApi ( "zoomLight", "changeSrc", "http://hidefwalls.com/wp-content/g/hd-2/car1.jpg" );
+		}, 3000);
 	}catch (e){
 		//console.error(e);
 		console.error ( "Scope Index error!" );

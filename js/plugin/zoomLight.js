@@ -73,7 +73,7 @@
         function handler (target, action, fallback){
             console.groupCollapsed ( "ZoomLight: Handler called!" );
             console.log ( "target", target );
-            console.log ( "target", action );
+            console.log ( "target %c" + action, "font-weight:bold; color: red;" );
             console.log ( "target", fallback );
             console.groupEnd();
 
@@ -179,10 +179,13 @@
 
         //---
         function destroy (){
+            console.group ( "ZoomLight: Destroy called!" );//
             //
             unbindMouse ();
             //
             clearAnimation  ();
+
+            console.groupEnd();
         }
 
         //---
@@ -195,7 +198,7 @@
         //---
         function clearAnimation (){
             console.log ( "ZoomLight: ClearAnimation called!" );//
-            //Set interval animation without jquery animation
+            //Clear interval animation 
             clearTimeout(self.options.interval);
         }
 

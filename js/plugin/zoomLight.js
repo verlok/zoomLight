@@ -16,11 +16,11 @@
 
         // default options
         var defaults = {
-            isMobile        : !(navigator.userAgent.match(/mobile/i) === null),
+            isDesktop       : detectAgent (),
             zoomOpenClass   : 'zoomLayerVisible',
             openLayer       : '#mainImage img',
             closeLayer      : '#zoomLayer',
-            $preloader       : $('#preloader'),
+            $preloader      : $('#preloader'),
             $body           : $('body'), 
             $zoomLayer      : $('#zoomLayer'),
             $zlImg          : $("#zoomLayer #zoomImage"),
@@ -33,7 +33,7 @@
         self.options = $.extend({}, defaults, options);
 
         //Trace if is mobile
-        console.log ( "ZoomLight: Mobile mode %c" + self.options.isMobile, "font-weight:bold; color: red;" );
+        console.log ( "ZoomLight: Mobile mode %c" + self.options.isDesktop, "font-weight:bold; color: red;" );
 
         // just some private data
         //self.count = 1;
@@ -51,13 +51,27 @@
         }
 
         //---
+        function detectAgent (){
+            console.log ( "ZoomLight: DetectAgent called!" );
+            var promise = false;
+            if(navigator.userAgent.match(/mobile/i) !== null){
+                return promise=true;
+            }else if (navigator.userAgent.match(/Macintosh/i) !== null){
+                return promise=true;
+            }
+            return promise;
+        }
+
+        //---
         function openLayer (target){
             console.log ( "ZoomLight: OpenLayer called!" );
             var tmpTarget = test ( target, self.options.openLayer );
             handler ( tmpTarget, "click", function(){
                 self.options.$body.addClass(self.options.zoomOpenClass);
                 //Desktop mode
-                desktopMode ();
+                if ( !self.options.isDesktop ){
+                    desktopMode ();
+                }
             });
         }
 
@@ -67,7 +81,10 @@
             var tmpTarget = test ( target, self.options.closeLayer );
             handler ( tmpTarget, "click", function(){
                 self.options.$body.removeClass(self.options.zoomOpenClass);
-                destroy();
+                //Desktop mode
+                if ( !self.options.isDesktop ){
+                    destroy();
+                }
             });
         }
 
@@ -75,6 +92,36 @@
         function test ( target, def ){
             var promise = typeof(target) !== undefined && ( typeof(target) === "string" || typeof(target) === "object" ) ? target : def
             return promise;
+        }
+
+        //--- 
+        function handler (target, action, fallback){
+            console.groupCollapsed ( "ZoomLight: Handler called!" );
+            console.log ( "target: ", target );
+            console.log ( "action:  %c" + action, "font-weight:bold; color: red;" );
+            console.log ( "fallback:", fallback );
+            
+            if ( typeof(target) === "string" ){
+                $(target).bind(action, fallback);
+            }else{
+                for ( var i = 0; i < target.length; i++ ){
+                    var tmp = target[i].replace(/\s+/g, '');
+                    //console.log( tmp.substr(tmp.length-3,tmp.length-1) );
+                    if ( tmp.substr(tmp.length-3,tmp.length-1) === "img" ){
+                        $(target[i]).bind(action, fallback);
+                    }else{
+                        var id = $(target[i]).data("reference");
+                        if ( typeof(id) != "undefined" ){
+                            $(target[i]).bind(action, function (){
+                                $("#"+id)[action]();
+                            });
+                        }
+                    }
+                }
+            }
+
+            console.groupEnd();
+
         }
 
         //---
@@ -96,28 +143,10 @@
             }).attr('src', src);
         }
 
-        //--- 
-        function handler (target, action, fallback){
-            console.groupCollapsed ( "ZoomLight: Handler called!" );
-            console.log ( "target: ", target );
-            console.log ( "action:  %c" + action, "font-weight:bold; color: red;" );
-            console.log ( "fallback:", fallback );
-            console.groupEnd();
-            if ( typeof(target) === "string" ){
-                $(target).bind(action, fallback);
-            }else{
-                for ( var i = 0; i < target.length; i++ ){
-                    $(target[i]).bind(action, fallback);
-                }
-            }
-        }
-
         //---
         function desktopMode (){
             console.log ( "%cZoomLight: DesktopMode called!", "font-weight:bold; color: green;" );
-            if ( !self.options.isMobile ){
-                setupMoveImage ();
-            }
+            setupMoveImage ();
         }
 
         //---

@@ -3,11 +3,11 @@
 **/
 var stack = {};
 function pool ( $target, pluginName, options  ){
-	console.group ( "Pool requested"  );
+	/*console.group ( "Pool requested"  );
 	console.log ( "target: 		", $target );
 	console.log ( "pluginName:  ", pluginName );
 	console.log ( "options: 	", options );
-	console.groupEnd();
+	console.groupEnd();*/
 	//	
 	var tmpStack = {};
 	$target[pluginName](options);
@@ -25,11 +25,11 @@ function pool ( $target, pluginName, options  ){
 *
 **/
 function callApi ( pluginName, method, option ){
-	console.group ( "CallApi requested"  );
+	/*console.group ( "CallApi requested"  );
 	console.log ( "pluginName:  ", pluginName );
 	console.log ( "method:  	", method );
 	console.log ( "options: 	", option );
-	console.groupEnd();
+	console.groupEnd();*/
 	stack[pluginName].api[method](option);
 }
 

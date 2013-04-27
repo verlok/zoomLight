@@ -295,7 +295,7 @@ body.zoomLayerVisible {
 
 /* line 10, ../sass/style.scss */
 #zoomLayer {
-  background: black;
+  background: white;
   display: none;
   position: fixed;
   top: 0;
@@ -311,10 +311,10 @@ body.zoomLayerVisible #zoomLayer {
   display: block;
 }
 /* line 26, ../sass/style.scss */
-#zoomLayer img {
+/*#zoomLayer img {
   width: 1500px;
   height: auto;
-}
+}*/
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   /* line 26, ../sass/style.scss */
   #zoomLayer img {
@@ -363,4 +363,9 @@ img {
   background: #666;
   color: white;
   border: 1px solid #666666;
+}
+
+#resize{
+  position: absolute;
+  z-index: 999;
 }

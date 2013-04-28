@@ -29,13 +29,25 @@
 		<p>Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt.</p>
 		<p>Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.</p>
 	</div>
+
+	<div id="test"><h1>Test</h1></div>
+
+
+
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<!--script src="js/index.js" type="text/javascript"></script--><!--async-->
-	<script src="js/system/pool.manager.js" type="text/javascript"></script>
 
-	<script src="js/plugin/zoomLight.js" type="text/javascript"></script><!-- -min -->
+	<?php
+		if ( $_GET['srcjs'] === "0" ){
+			echo "<script src='js/minified/googlecompiler/application-min.js' type='text/javascript'></script>";//zoomLight-min.js' type='text/javascript'></script>";
+		}else{
+			echo "<script src='js/system/pool.manager.js' type='text/javascript'></script>";
+			echo "<script src='js/plugin/zoomLight.js' type='text/javascript'></script>";
+			echo "<script src='js/plugin/testPlugin.js' type='text/javascript'></script>";
+			echo "<script async src='js/scope/scope.index.js' type='text/javascript'></script>";
+		}
+	?>
 
-	<script src="js/scope/scope.index.js" type="text/javascript"></script>
 
 	
 </body>

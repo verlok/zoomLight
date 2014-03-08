@@ -295,11 +295,9 @@ body.zoomLayerVisible {
 
 /* line 10, ../sass/style.scss */
 #zoomLayer {
-  width: 100%;
-  height: 100%;
-  background: white;
+  background: black;
   display: none;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -313,10 +311,10 @@ body.zoomLayerVisible #zoomLayer {
   display: block;
 }
 /* line 26, ../sass/style.scss */
-/*#zoomLayer img {
+#zoomLayer img {
   width: 1500px;
   height: auto;
-}*/
+}
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   /* line 26, ../sass/style.scss */
   #zoomLayer img {
@@ -365,19 +363,4 @@ img {
   background: #666;
   color: white;
   border: 1px solid #666666;
-}
-
-#resize{
-  position: absolute;
-  z-index: 999;
-}
-
-#preloader{
-  width: 60px;
-  height: 60px;
-  margin: 0 auto;
-  position: relative;
-  top: 40%;
-  z-index: 999;
-  display: none;
 }

@@ -1,1 +1,0 @@
-Hello, this is a picture zoom in a page, which can open, close and move around with the minimum amount of javascript possible

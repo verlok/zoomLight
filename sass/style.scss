@@ -1,12 +1,6 @@
 @import "compass/css3";
 @import "_normalize";
 
-body {
-	&.zoomLayerVisible {
-		overflow: hidden;
-	}
-}
-
 #zoomLayer {
 	background: black;
 	display: none;
@@ -18,10 +12,6 @@ body {
 	overflow: scroll;
 	-webkit-overflow-scrolling: touch;
 	cursor: pointer;
-
-	body.zoomLayerVisible & {
-		display: block;
-	}
 
 	img {
 		width: 1500px;

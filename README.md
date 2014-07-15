@@ -1,0 +1,1 @@
+This is a picture zoom "full screen" in a web page, which can open, close and move around with the minimum amount of javascript possible.

@@ -6,12 +6,13 @@
 		$zoomImage = $('#zoomImage'),
 		$openZoomBtn = $mainImage.find('button'),
 		$smallImage = $mainImage.find('img'),
-		scrollTimer,
-		//moveTimer,
+		scrollInertiaTimeout,
+		scrollingByCodeTimeout,
 		zoomLayerWidth = $zoomLayer.width(),
 		zoomLayerHeight = $zoomLayer.height(),
 		zoomImageWidth,
-		zoomImageHeight;
+		zoomImageHeight,
+		scrollingByCode = false;
 
 	function openZoom() {
 		$body.css('overflow', 'hidden');
@@ -19,7 +20,7 @@
 		zoomImageWidth = $zoomImage.width();
 		zoomImageHeight = $zoomImage.height();
 		scrollZoomLayerInPercent(0.5, 0.5);
-		setTimeout(function() {
+		setTimeout(function () {
 			handlePointerMovement();
 			handleScroll();
 		}, 0);
@@ -38,11 +39,16 @@
 		var corsaX = zoomImageWidth - zoomLayerWidth,
 			corsaY = zoomImageHeight - zoomLayerHeight;
 
+		scrollingByCode = true;
+
 		$zoomLayer.scrollTop(corsaY * yPercent);
 		$zoomLayer.scrollLeft(corsaX * xPercent);
 
-		console.log('scrollImage', 'corsaX:', corsaX, 'xPercent', xPercent);
-		console.log('scrollImage', 'corsaY:', corsaY, 'yPercent', yPercent);
+		clearTimeout(scrollingByCodeTimeout);
+		scrollingByCodeTimeout = setTimeout(function(){
+			scrollingByCode = false;
+		}, 25);
+
 	}
 
 	function mouseMoveHandler(evt) {
@@ -59,11 +65,12 @@
 	}
 
 	function scrollHandler() {
+		if (scrollingByCode) return;
 		// Scroll happened. Un-handle pointer movement
 		unHandlePointerMovement();
 		// After 50 ms since the last scroll, restart mouse handling pointer movement
-		clearTimeout(scrollTimer);
-		scrollTimer = setTimeout(function() {
+		clearTimeout(scrollInertiaTimeout);
+		scrollInertiaTimeout = setTimeout(function () {
 			handlePointerMovement();
 		}, 100);
 
@@ -85,7 +92,7 @@
 	$zoomLayer
 		.on('click', closeZoom);
 
-	$(window).on('resize', function(){
+	$(window).on('resize', function () {
 		zoomLayerWidth = $zoomLayer.width();
 		zoomLayerHeight = $zoomLayer.height();
 	});

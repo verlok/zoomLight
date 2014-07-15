@@ -343,13 +343,12 @@ img {
 }
 /* line 47, ../sass/style.scss */
 #mainImage button {
-  border: 0;
   padding: 5px 20px;
   background: #CCC;
   color: black;
   border: 1px solid #999;
 }
-/* line 53, ../sass/style.scss */
+/* line 52, ../sass/style.scss */
 #mainImage button:hover {
   background: #666;
   color: white;

@@ -12,7 +12,7 @@
 		zoomLayerHeight = $zoomLayer.height(),
 		zoomImageWidth,
 		zoomImageHeight,
-		scrollingByCode = false;
+		isScrollingByCode = false;
 
 	function openZoom() {
 		$body.css('overflow', 'hidden');
@@ -20,11 +20,8 @@
 		zoomImageWidth = $zoomImage.width();
 		zoomImageHeight = $zoomImage.height();
 		scrollZoomLayerInPercent(0.5, 0.5);
-		setTimeout(function () {
-			handlePointerMovement();
-			handleScroll();
-		}, 0);
-
+		handlePointerMovement();
+		handleScroll();
 	}
 
 	function closeZoom() {
@@ -36,17 +33,17 @@
 
 	function scrollZoomLayerInPercent(xPercent, yPercent) {
 
-		var corsaX = zoomImageWidth - zoomLayerWidth,
-			corsaY = zoomImageHeight - zoomLayerHeight;
+		var xStroke = zoomImageWidth - zoomLayerWidth,
+			yStroke = zoomImageHeight - zoomLayerHeight;
 
-		scrollingByCode = true;
+		isScrollingByCode = true;
 
-		$zoomLayer.scrollTop(corsaY * yPercent);
-		$zoomLayer.scrollLeft(corsaX * xPercent);
+		$zoomLayer.scrollTop(yStroke * yPercent);
+		$zoomLayer.scrollLeft(xStroke * xPercent);
 
 		clearTimeout(scrollingByCodeTimeout);
 		scrollingByCodeTimeout = setTimeout(function(){
-			scrollingByCode = false;
+			isScrollingByCode = false;
 		}, 25);
 
 	}
@@ -65,7 +62,7 @@
 	}
 
 	function scrollHandler() {
-		if (scrollingByCode) return;
+		if (isScrollingByCode) return;
 		// Scroll happened. Un-handle pointer movement
 		unHandlePointerMovement();
 		// After 50 ms since the last scroll, restart mouse handling pointer movement

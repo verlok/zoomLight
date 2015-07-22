@@ -1,6 +1,7 @@
 (function () {
 
 	var $body = $('body'),
+		$window = $(window),
 		$zoomLayer = $('#zoomLayer'),
 		$mainImage = $('#mainImage'),
 		$zoomImage = $('#zoomImage'),
@@ -50,7 +51,10 @@
 
 	function mouseMoveHandler(evt) {
 		//unHandleScroll();
-		scrollZoomLayerInPercent(evt.clientX / zoomLayerWidth, evt.clientY / zoomLayerHeight)
+		var scrollTargetOffset = $(evt.currentTarget).offset();
+		scrollTargetOffset.top -= $window.scrollTop();
+		scrollTargetOffset.left -= $window.scrollLeft();
+		scrollZoomLayerInPercent((evt.clientX - scrollTargetOffset.left) / zoomLayerWidth, (evt.clientY - scrollTargetOffset.top) / zoomLayerHeight)
 	}
 
 	function handlePointerMovement() {

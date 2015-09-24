@@ -1,6 +1,10 @@
 @import "compass/css3";
 @import "_normalize";
 
+body {
+	line-height: 1.5;
+}
+
 #zoomLayer {
 	background: black;
 	display: none;
@@ -15,10 +19,11 @@
 
 	img {
 		width: 1500px;
+		height: auto;
 		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
 			width: 775px;
 		}
-		height: auto;
+
 	}
 }
 

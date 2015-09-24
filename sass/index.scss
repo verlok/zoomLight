@@ -1,0 +1,45 @@
+@import "compass/css3";
+@import "_normalize";
+
+body {
+	line-height: 1.5;
+}
+
+#container {
+	text-align: center;
+	@media (screen and min-width: 679px) {
+		width: 960px;
+		margin: 0 auto;
+	}
+}
+
+ul {
+	list-style-type: none;
+	margin: 0; padding: 0;
+}
+
+ol {
+	list-style-position: inside;
+	margin: 0; padding: 0;
+}
+
+.demos {
+	$linkColor: #005C7D;
+
+	li {
+		margin: 1em auto;
+		width: 15em;
+	}
+	a {
+		color: white;
+		text-decoration: none;
+		cursor: pointer;
+		padding: 1em;
+		background: $linkColor;
+		border-radius: 2em;
+		display: block;
+		&:hover {
+			background: tint($linkColor, 10%);
+		}
+	}
+}

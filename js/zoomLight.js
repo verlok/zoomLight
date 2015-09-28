@@ -161,16 +161,23 @@
 	};
 
 	ZoomLight.prototype._handleScrollFn = function (evt) {
+		//console.log("SCROLL");
 		if (this._isScrollingByCode) {
+			//console.log("SCROLL > DO NOTHING (by code)");
 			return;
 		}
 		// User scroll happened. Un-handle pointer movement for a while
-		this._stopListenMouseMove();
-		// After 50 ms since the last scroll, restart mouse handling pointer movement
-		clearTimeout(this._scrollInertiaTimer);
-		this._scrollInertiaTimer = setTimeout(_bind(function () {
-			this._startListenMouseMove();
-		}, this), 100);
+		if (this._isListeningMouseMove) {
+			//console.log("SCROLL > STOP LISTEN MOUSE MOVE (by user)");
+			this._stopListenMouseMove();
+			// After 50 ms since the last scroll, restart mouse handling pointer movement
+			clearTimeout(this._scrollInertiaTimer);
+			this._scrollInertiaTimer = setTimeout(_bind(function () {
+				// TODO: FIX THIS!!!
+				//console.log("SCROLL > RESTART LISTEN MOUSE MOVE (by user)");
+				this._startListenMouseMove();
+			}, this), 1000);
+		}
 	};
 
 	/**
@@ -188,6 +195,7 @@
 		clearTimeout(this._scrollingByCodeTimer);
 		this._scrollingByCodeTimer = setTimeout(_bind(function () {
 			this._isScrollingByCode = false;
+			//console.log('ScrollingByCode SET TO FALSE');
 		}, this), 100);
 
 		this._zoomLayerEl.scrollLeft = xStroke * xPercent;
@@ -195,10 +203,12 @@
 	};
 
 	ZoomLight.prototype._startListenMouseMove = function () {
+		this._isListeningMouseMove = true;
 		_addEventListener(this._zoomLayerEl, "mousemove", _bind(this._handleMouseMoveFn, this));
 	};
 
 	ZoomLight.prototype._stopListenMouseMove = function () {
+		this._isListeningMouseMove = false;
 		_removeEventListener(this._zoomLayerEl, "mousemove", _bind(this._handleMouseMoveFn, this));
 	};
 

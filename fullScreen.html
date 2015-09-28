@@ -13,7 +13,7 @@
 	<div id="container">
 		<h1>Zoom test</h1>
 		<p>This is a zoom test to try out the native scroll (Mac, iOS, Android) inside a layer</p>
-		<div id="mainImage">
+		<div class="mainImage">
 			<img src="images/41340481nd_14n_f.jpg"/>
 			<button>Open zoom</button>
 		</div>
@@ -29,7 +29,7 @@
 	</div>
 	<script src="js/zoomLight.js" type="text/javascript"></script>
 	<script>
-		var opener = document.querySelector('#mainImage');
+		var opener = document.querySelector('.mainImage');
 		var zoomLight = new ZoomLight();
 		opener.onclick = function() {
 			zoomLight.openZoom();

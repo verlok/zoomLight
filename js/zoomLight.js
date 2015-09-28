@@ -4,7 +4,7 @@
 	} else if (typeof exports === 'object') {
 		module.exports = factory();
 	} else {
-		root.ZoomLight = factory(); //WTF?!?!
+		root.ZoomLight = factory();
 	}
 }(this, function () {
 
@@ -21,8 +21,8 @@
 
 
 	/*
-	 * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
-	 * -------------------------------------------------------------------
+	 * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF ZOOM LIGHT
+	 * --------------------------------------------------------------------
 	 */
 
 	function _addEventListener(element, eventName, callback) {
@@ -188,7 +188,7 @@
 		clearTimeout(this._scrollingByCodeTimer);
 		this._scrollingByCodeTimer = setTimeout(_bind(function () {
 			this._isScrollingByCode = false;
-		}, this, 25));
+		}, this), 100);
 
 		this._zoomLayerEl.scrollLeft = xStroke * xPercent;
 		this._zoomLayerEl.scrollTop = yStroke * yPercent;

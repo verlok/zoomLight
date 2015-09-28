@@ -122,59 +122,33 @@
 	};
 
 	ZoomLight.prototype._handleMouseMoveFn = function (evt) {
-
 		var relativeMouseX = evt.clientX,
 			relativeMouseY = evt.clientY;
 
 		if (!this._settings.fullScreen) {
-
 			relativeMouseX -= this._zoomLayerLeft;
 			relativeMouseY -= this._zoomLayerTop;
-
 			if (!this._isPositionFixed) {
 				relativeMouseX += window.pageXOffset;
 				relativeMouseY += window.pageYOffset;
 			}
 		}
-
-		var toXPercent = relativeMouseX / this._zoomLayerWidth;
-		var toYPercent = relativeMouseY / this._zoomLayerHeight;
-
-		/*console.log(
-		 'x: ' + toXPercent,
-		 'y: ' + toYPercent,
-		 //'||',
-		 'windowScrollLeft: ' + windowScrollLeft,
-		 'windowScrollTop: ' + windowScrollTop,
-		 '||',
-		 '_zoomLayerWidth: ' + this._zoomLayerWidth,
-		 '_zoomLayerHeight: ' + this._zoomLayerHeight,
-		 '||',
-		 'evt.clientX: ' + evt.clientX,
-		 'evt.clientY: ' + evt.clientY
-		 );*/
-
 		this._scrollZoomLayerInPercent(
-			toXPercent,
-			toYPercent
+			relativeMouseX / this._zoomLayerWidth,
+			relativeMouseY / this._zoomLayerHeight
 		);
 	};
 
 	ZoomLight.prototype._handleScrollFn = function (evt) {
-		//console.log("SCROLL");
 		if (this._isScrollingByCode) {
-			//console.log("SCROLL > DO NOTHING (by code)");
 			return;
 		}
 		// User scroll happened. Un-handle pointer movement for a while
 		if (this._isListeningMouseMove) {
-			//console.log("SCROLL > STOP LISTEN MOUSE MOVE (by user)");
 			this._stopListenMouseMove();
 			// After 50 ms since the last scroll, restart mouse handling pointer movement
 			clearTimeout(this._scrollInertiaTimer);
 			this._scrollInertiaTimer = setTimeout(_bind(function () {
-				// TODO: FIX THIS!!!
-				//console.log("SCROLL > RESTART LISTEN MOUSE MOVE (by user)");
 				this._startListenMouseMove();
 			}, this), 1000);
 		}
@@ -195,7 +169,6 @@
 		clearTimeout(this._scrollingByCodeTimer);
 		this._scrollingByCodeTimer = setTimeout(_bind(function () {
 			this._isScrollingByCode = false;
-			//console.log('ScrollingByCode SET TO FALSE');
 		}, this), 100);
 
 		this._zoomLayerEl.scrollLeft = xStroke * xPercent;
@@ -204,20 +177,20 @@
 
 	ZoomLight.prototype._startListenMouseMove = function () {
 		this._isListeningMouseMove = true;
-		_addEventListener(this._zoomLayerEl, "mousemove", _bind(this._handleMouseMoveFn, this));
+		_addEventListener(this._zoomLayerEl, "mousemove", this._boundHandleMouseMoveFn);
 	};
 
 	ZoomLight.prototype._stopListenMouseMove = function () {
 		this._isListeningMouseMove = false;
-		_removeEventListener(this._zoomLayerEl, "mousemove", _bind(this._handleMouseMoveFn, this));
+		_removeEventListener(this._zoomLayerEl, "mousemove", this._boundHandleMouseMoveFn);
 	};
 
 	ZoomLight.prototype._startListenScroll = function () {
-		_addEventListener(this._zoomLayerEl, "scroll", _bind(this._handleScrollFn, this));
+		_addEventListener(this._zoomLayerEl, "scroll", this._boundHandleScrollFn);
 	};
 
 	ZoomLight.prototype._stopListenScroll = function () {
-		_removeEventListener(this._zoomLayerEl, "mousemove", _bind(this._handleScrollFn, this));
+		_removeEventListener(this._zoomLayerEl, "scroll", this._boundHandleScrollFn);
 	};
 
 	/*
@@ -226,7 +199,12 @@
 	 */
 
 	ZoomLight.prototype.destroy = function () {
-		_removeEventListener(window, "resize", _bind(this._handleResizeFn, this));
+		this._stopListenMouseMove();
+		this._stopListenScroll();
+		_removeEventListener(window, "resize", this._boundHandleResizeFn);
+		this._boundHandleMouseMoveFn = null;
+		this._boundHandleResizeFn = null;
+		this._boundHandleScrollFn = null;
 		this._queryOriginNode = null;
 		this._settings = null;
 	};
@@ -271,12 +249,17 @@
 		// Tells ZoomLight if scroll was caused by code (and not by the user)
 		this._isScrollingByCode = false;
 
+		this._boundHandleScrollFn = _bind(this._handleScrollFn, this);
+		this._boundHandleMouseMoveFn = _bind(this._handleMouseMoveFn, this);
+		this._boundHandleResizeFn = _bind(this._handleResizeFn, this);
+
+
 		// Saving original document overflow style ("scroll" in most cases)
 		_originalOverflow = _bodyEl.style.overflow;
 
 		// Listen to resize and execute resize handler now
 		// TODO: THROTTLE / DEBOUNCE RESIZE HANDLER
-		_addEventListener(window, "resize", _bind(this._handleResizeFn, this));
+		_addEventListener(window, "resize", this._boundHandleResizeFn);
 		this._handleResizeFn();
 
 	}

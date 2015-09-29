@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>ZoomLight - Partial Screen Demo</title>
 	<link rel="stylesheet" href="css/partialScreen.css" media="screen" type="text/css">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 <body>
 	<div class="zoomLayer">
@@ -29,15 +29,15 @@
 	</div>
 	<script src="js/zoomLight.js" type="text/javascript"></script>
 	<script>
-		var opener = document.querySelector('.mainImage');
-		var closer = document.querySelector('.zoomLayer');
+		var mainImageEl = document.querySelector('.mainImage');
+		var zoomLayerEl = document.querySelector('.zoomLayer');
 		var zoomLight = new ZoomLight({
 			fullScreen: false
 		});
-		opener.onclick = function() {
+		mainImageEl.onclick = function() {
 			zoomLight.openZoom();
 		};
-		closer.onclick = function() {
+		zoomLayerEl.onclick = function() {
 			zoomLight.closeZoom();
 		}
 	</script>

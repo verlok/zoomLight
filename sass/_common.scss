@@ -1,0 +1,59 @@
+body {
+	line-height: 1.5;
+}
+
+.zoomLayer {
+	background: black;
+	display: none;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
+	cursor: pointer;
+
+	img {
+		width: 1500px;
+		height: auto;
+		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+			width: 775px;
+		}
+	}
+}
+
+#container {
+	margin: 0 auto;
+	text-align: center;
+}
+
+img {
+	display: block;
+	margin: 0 auto;
+}
+
+.mainImage {
+	img {
+		width: 600px;
+		max-width: 100%;
+		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+			width: 300px;
+		}
+		height: auto;
+		margin-bottom: 10px;
+	}
+	img, button {
+		cursor: pointer;
+	}
+	button {
+		padding: 5px 20px;
+		background: #CCC;
+		color: black;
+		border: 1px solid #999;
+		&:hover {
+			background: #666;
+			color:white;
+			border: 1px solid #666;
+		}
+	}
+}

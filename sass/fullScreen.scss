@@ -1,63 +1,7 @@
 @import "compass/css3";
-@import "_normalize";
-
-body {
-	line-height: 1.5;
-}
+@import "normalize";
+@import "common";
 
 .zoomLayer {
-	background: black;
-	display: none;
-	position: fixed;
 	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	overflow: scroll;
-	-webkit-overflow-scrolling: touch;
-	cursor: pointer;
-
-	img {
-		width: 1500px;
-		height: auto;
-		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-			width: 775px;
-		}
-
-	}
-}
-
-#container {
-	margin: 0 auto;
-	text-align: center;
-}
-
-img {
-	display: block;
-	margin: 0 auto;
-}
-
-.mainImage {
-	img {
-		width: 600px;
-		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-			width: 300px;
-		}
-		height: auto;
-		margin-bottom: 10px;
-	}
-	img, button {
-		cursor: pointer;
-	}
-	button {
-		padding: 5px 20px;
-		background: #CCC;
-		color: black;
-		border: 1px solid #999;
-		&:hover {
-			background: #666;
-			color:white;
-			border: 1px solid #666;
-		}
-	}
 }

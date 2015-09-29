@@ -7,13 +7,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 <body>
-	<div id="zoomLayer">
-		<img id="zoomImage" src="images/41340481nd_15n_f.jpg"/>
+	<div class="zoomLayer">
+		<img class="zoomImage" src="images/41340481nd_15n_f.jpg"/>
 	</div>
 	<div id="container">
 		<h1>Zoom test</h1>
 		<p>This is a zoom test to try out the native scroll (Mac, iOS, Android) inside a layer</p>
-		<div id="mainImage">
+		<div class="mainImage">
 			<img src="images/41340481nd_14n_f.jpg"/>
 			<button>Open zoom</button>
 		</div>
@@ -27,7 +27,15 @@
 		<p>Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt.</p>
 		<p>Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.</p>
 	</div>
-	<script src="js/vendor/jquery-1.11.0.min.js"></script>
-	<script src="js/index.js" type="text/javascript"></script>
+	<script src="js/zoomLight.js" type="text/javascript"></script>
+	<script>
+		var opener = document.querySelector('.mainImage');
+		var zoomLight = new ZoomLight({
+			fullScreen: false
+		});
+		opener.onclick = function() {
+			zoomLight.openZoom();
+		}
+	</script>
 </body>
 </html>

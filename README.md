@@ -6,6 +6,8 @@ ZoomLight allows you to enlarge an image and scroll it both with:
 * mouse scroll (wonderful for trackpads)
 * your finger (on touch devices)
 
+And now it can be integrated with Hammer.js to implement touch gestures, aka pinch!
+
 # DEMO
 
 See [presentation page and demos](http://verlok.github.io/zoomLight/).
